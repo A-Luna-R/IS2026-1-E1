@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ playlist.name }}</h2>
+{% if playlist.description %}<p>{{ playlist.description }}</p>{% endif %}
+
+<p><a href="{% url 'playlists_list' %}">← Volver a mis playlists</a></p>
+
+{% if songs %}
+  <ul>
+  {% for s in songs %}
+    <li>
+      <strong>{{ s.title }}</strong> {% if s.artist %}– {{ s.artist }}{% endif %}
+      <br>
+      <audio controls src="{{ s.audio.url }}"></audio>
+    </li>
+  {% endfor %}
+  </ul>
+{% else %}
+  <p>Esta playlist no tiene canciones.</p>
+{% endif %}
+{% endblock %}
