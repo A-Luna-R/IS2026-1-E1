@@ -16,7 +16,7 @@ def upload_song(request):
             song.owner = request.user
             song.save()
             messages.success(request, "Canción subida correctamente.")
-            return redirect('songs_list')
+            return redirect('songs-list')
     else:
         form = SongForm()
     return render(request, 'songs/upload.html', {'form': form})

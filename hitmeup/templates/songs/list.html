@@ -2,7 +2,7 @@
 {% block content %}
 <h2>Mis canciones</h2>
 
-<p><a href="{% url 'songs_upload' %}">Subir nueva canción</a></p>
+<p><a href="{% url 'upload-song' %}">Subir nueva canción</a></p>
 
 {% if songs %}
   <ul>
@@ -11,7 +11,7 @@
       <strong>{{ s.title }}</strong> {% if s.artist %}– {{ s.artist }}{% endif %}
       <br>
       <audio controls src="{{ s.audio.url }}"></audio>
-      <form method="post" action="{% url 'songs_delete' s.id %}">
+      <form method="post" action="{% url 'delete-song' s.id %}">
         {% csrf_token %}
         <button type="submit">Eliminar</button>
       </form>

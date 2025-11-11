@@ -37,12 +37,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'users',
     'home',
+<<<<<<< HEAD
     'songs',
     'playlists',
+<<<<<<< HEAD
     'artists',
 
+=======
+=======
+    'users',
+    'songs',
+>>>>>>> 7aa8fb2 (refactor: integración de ramas)
+>>>>>>> fbe7d77 (refactor: integración de ramas)
 ]
 
 MIDDLEWARE = [
@@ -133,13 +140,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # URL para Auth
 LOGIN_URL = 'landing'                 # nombre provisto por django.contrib.auth.urls
 LOGIN_REDIRECT_URL = 'home'         # a dónde ir tras iniciar sesión
-<<<<<<< HEAD
 LOGOUT_REDIRECT_URL = 'landing'       # a dónde ir tras cerrar sesión
 
 # Para canciones, subir archivos multimedia
 import os
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-=======
-LOGOUT_REDIRECT_URL = '/'       # a dónde ir tras cerrar sesión
->>>>>>> f492059 (fix(register): usuarios se registran correctamente; feat(logout) implementación del cierre de sesión)
