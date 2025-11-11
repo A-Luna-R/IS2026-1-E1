@@ -4,8 +4,7 @@ from songs.models import Song
 from artists.models import Artist
 
 class Playlist(models.Model):
-    owner_user = models.ForeignKey(User, null=True, blank=True, on_delete= models.CASCADE, related_name= 'playlists')
-    owner_artist = models.ForeignKey(Artist, null=True, blank= True, on_delete=models.CASCADE, related_name='playlists')
+    owner = models.ForeignKey(User, null=True, blank=True, on_delete= models.CASCADE, related_name= 'playlists')
     name = models.CharField(max_length= 200, db_index=True)
     description = models.TextField(blank=True)
     is_public = models.BooleanField(default=False)
@@ -15,10 +14,9 @@ class Playlist(models.Model):
 
     class Meta:
         ordering = ['-created_at']
-        unique_together = (('owner_user','name'), ('owner_artist','name'))
 
     def __str__(self):
-        owner = self.owner_artist.stage_name if self.owner_artist else (self.owner_user.username if self.owner_user else '—')
+        owner = self.owner.username
         return f"{self.name} [{owner}]"
 
 class PlaylistSong(models.Model):
