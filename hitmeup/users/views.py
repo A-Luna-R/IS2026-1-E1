@@ -22,6 +22,7 @@ class LandingView(LoginView):
             return redirect('home')  # o 'dashboard'
         return super().dispatch(request, *args, **kwargs)
     
+<<<<<<< HEAD
 class RegisterView(FormView):
     template_name = "users/register.html"
     form_class = RegisterForm
@@ -34,6 +35,28 @@ class RegisterView(FormView):
     
 class Logout(LogoutView):
     success_url = "landing"
+=======
+<<<<<<< HEAD
+def register_user(request): 
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)   
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Successfully created account")
+            return redirect('home')
+    else:
+        form = RegisterForm()
+    return render(request, "users/register.html", {"form": form})
+
+def logout_confirm_view(request):
+  return render(request, "users/logout_confirm.html")
+
+def logout_view(request):
+  logout(request)
+  messages.success(request, "Has cerrado sesión correctamente.")
+  return redirect("landing")
+<<<<<<< HEAD
+>>>>>>> 6bbae63 (fix(register): usuarios se registran correctamente; feat(logout) implementación del cierre de sesión)
 
 def search_people(request):
 q = (request.GET.get('q') or '').strip()
@@ -88,3 +111,19 @@ q = (request.GET.get('q') or '').strip()
     }
     return render(request, 'users/search_people.html', ctx)
 
+=======
+=======
+class RegisterView(FormView):
+    template_name = "users/register.html"
+    form_class = RegisterForm
+    success_url = "home"
+
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return super().form_valid(form)
+    
+class Logout(LogoutView):
+    success_url = "landing"
+>>>>>>> f492059 (fix(register): usuarios se registran correctamente; feat(logout) implementación del cierre de sesión)
+>>>>>>> dd949a4 (fix(register): usuarios se registran correctamente; feat(logout) implementación del cierre de sesión)
