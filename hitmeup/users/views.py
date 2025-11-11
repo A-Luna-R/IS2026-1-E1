@@ -23,6 +23,7 @@ class LandingView(LoginView):
         return super().dispatch(request, *args, **kwargs)
     
 <<<<<<< HEAD
+<<<<<<< HEAD
 class RegisterView(FormView):
     template_name = "users/register.html"
     form_class = RegisterForm
@@ -36,6 +37,8 @@ class RegisterView(FormView):
 class Logout(LogoutView):
     success_url = "landing"
 =======
+=======
+>>>>>>> 7401da3 (refactor: integración de ramas)
 <<<<<<< HEAD
 def register_user(request): 
     if request.method == 'POST':
@@ -113,6 +116,8 @@ q = (request.GET.get('q') or '').strip()
 
 =======
 =======
+=======
+>>>>>>> 9a2a0e0 (refactor: integración de ramas)
 class RegisterView(FormView):
     template_name = "users/register.html"
     form_class = RegisterForm
@@ -125,5 +130,8 @@ class RegisterView(FormView):
     
 class Logout(LogoutView):
     success_url = "landing"
+<<<<<<< HEAD
 >>>>>>> f492059 (fix(register): usuarios se registran correctamente; feat(logout) implementación del cierre de sesión)
 >>>>>>> dd949a4 (fix(register): usuarios se registran correctamente; feat(logout) implementación del cierre de sesión)
+=======
+>>>>>>> 9a2a0e0 (refactor: integración de ramas)

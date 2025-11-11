@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 <<<<<<< HEAD
+<<<<<<< HEAD
 from django.urls import path
 from .views import LandingView, RegisterView, Logout
 
@@ -24,6 +25,8 @@ urlpatterns = [
     path('register', RegisterView.as_view(), name= "register"), 
     path('logout', Logout.as_view(), name= "logout"),
 =======
+=======
+>>>>>>> 7401da3 (refactor: integración de ramas)
 <<<<<<< HEAD
 from django.urls import path, include
 # from .views import LandingView, register_user
@@ -39,6 +42,8 @@ urlpatterns = [
     path('search', search_people, name='people_search'),
 =======
 =======
+=======
+>>>>>>> 9a2a0e0 (refactor: integración de ramas)
 from django.urls import path
 from .views import LandingView, RegisterView, Logout
 
@@ -46,6 +51,9 @@ urlpatterns = [
     path('', LandingView.as_view(), name= "landing"),
     path('register', RegisterView.as_view(), name= "register"), 
     path('logout', Logout.as_view(), name= "logout"),
+<<<<<<< HEAD
 >>>>>>> f492059 (fix(register): usuarios se registran correctamente; feat(logout) implementación del cierre de sesión)
 >>>>>>> dd949a4 (fix(register): usuarios se registran correctamente; feat(logout) implementación del cierre de sesión)
+=======
+>>>>>>> 9a2a0e0 (refactor: integración de ramas)
 ]
