@@ -15,4 +15,16 @@ urlpatterns = [
     path('like/artist/<int:playlist_id>', views.playlist_toggle_like_artist, name= 'playlist_like_artist'),
     path('liked', views.playlists_liked, name= 'playlists_liked'),
 ]
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+=======
+
+=======
+    path('list-playlists', views.playlists_list, name= 'list-playlists'),
+    path('<int:playlist_id>', views.playlist_detail, name= 'playlist'),
+]
+>>>>>>> 3073765 (style: ajuste de directorios)
+>>>>>>> 4aacd27 (refactor: integración de ramas)
+>>>>>>> 90d0dfa (refactor: integración de ramas)
