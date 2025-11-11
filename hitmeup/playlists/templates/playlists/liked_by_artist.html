@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ playlist.name }} — {{ playlist.owner_artist.stage_name }}</h2>
+<p>{{ playlist.description }}</p>
+
+{% if user.is_staff or (user.is_authenticated and user.artist_profile and user.artist_profile.id == playlist.owner_artist.id) %}
+<form method="post" action="{% url 'playlist_liked_by_artist_sync' playlist.owner_artist.id %}" style="margin-bottom:1rem">
+  {% csrf_token %}
+  <button type="submit">Sincronizar ahora</button>
+</form>
+{% endif %}
+
+{% if songs %}
+  <ul>
+    {% for s in songs %}
+      <li>
+        <strong>{{ s.title }}</strong>{% if s.artist %} – {{ s.artist }}{% endif %}
+        <br><audio controls src="{{ s.audio.url }}"></audio>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>Aún no hay canciones con like.</p>
+{% endif %}
+{% endblock %}

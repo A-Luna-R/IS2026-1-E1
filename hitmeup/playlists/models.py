@@ -1,29 +1,30 @@
 from django.db import models
-
-# Create your models here.
-
-from django.db import models
 from django.contrib.auth.models import User
 from songs.models import Song
+from artists.models import Artist
 
 class Playlist(models.Model):
-    owner = models.ForeignKey(User, on_delete= models.CASCADE, related_name='playlists')
-    name = models.CharField(max_length= 200)
-    description = models.TextField(blank= True)
+    owner_user = models.ForeignKey(User, null=True, blank=True, on_delete= models.CASCADE, related_name= 'playlists')
+    owner_artist = models.ForeignKey(Artist, null=True, blank= True, on_delete=models.CASCADE, related_name='playlists')
+    name = models.CharField(max_length= 200, db_index=True)
+    description = models.TextField(blank=True)
+    is_public = models.BooleanField(default=False)
+
     songs = models.ManyToManyField(Song, through= 'PlaylistSong', related_name='in_playlists')
-    created_at = models.DateTimeField(auto_now_add= True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ('owner', 'name')  # cada usuario no repite nombre de playlist
         ordering = ['-created_at']
+        unique_together = (('owner_user','name'), ('owner_artist','name'))
 
     def __str__(self):
-        return f"{self.name} ({self.owner.username})"
+        owner = self.owner_artist.stage_name if self.owner_artist else (self.owner_user.username if self.owner_user else '—')
+        return f"{self.name} [{owner}]"
 
 class PlaylistSong(models.Model):
     playlist = models.ForeignKey(Playlist, on_delete= models.CASCADE)
     song = models.ForeignKey(Song, on_delete= models.CASCADE)
-    added_at = models.DateTimeField(auto_now_add= True)
+    added_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         unique_together = ('playlist', 'song')
