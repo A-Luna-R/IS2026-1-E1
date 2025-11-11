@@ -23,23 +23,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('users.urls')),
     path('', include('home.urls')),
-<<<<<<< HEAD
-<<<<<<< HEAD
-    path('songs/', include('songs.urls')),
-    path('songs/', include('songs.urls')),
-<<<<<<< HEAD
-    path('playlists/', include('playlists.urls')),
-    path('artists/', include('artists.urls')),   
-=======
-    path('playlists/', include('playlists.urls')), 
-=======
-    path('', include('songs.urls')),
->>>>>>> 7aa8fb2 (refactor: integración de ramas)
->>>>>>> fbe7d77 (refactor: integración de ramas)
-=======
     path('', include('songs.urls')),
     path('', include('playlists.urls')),
->>>>>>> 4aacd27 (refactor: integración de ramas)
+    path('', include('artists.urls')),
 ]
 
 

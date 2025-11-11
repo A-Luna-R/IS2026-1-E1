@@ -38,24 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'home',
-<<<<<<< HEAD
-<<<<<<< HEAD
-    'songs',
-    'playlists',
-<<<<<<< HEAD
+    'users',
     'artists',
-
-=======
-=======
-    'users',
-    'songs',
->>>>>>> 7aa8fb2 (refactor: integración de ramas)
->>>>>>> fbe7d77 (refactor: integración de ramas)
-=======
-    'users',
     'songs',
     'playlists',
->>>>>>> 4aacd27 (refactor: integración de ramas)
 ]
 
 MIDDLEWARE = [

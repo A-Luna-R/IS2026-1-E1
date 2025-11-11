@@ -26,44 +26,12 @@
   <link rel="stylesheet" href="{% static 'css/main.css' %}">
 </head>
 <body>
-<<<<<<< HEAD
-  <nav>
-    {% if user.is_authenticated %}
-      <span>Hola, {{ user.username }}</span>
-      <a href="{% url 'logout_confirm' %}">Cerrar sesión</a>
-    {% else %}
-      <a href="{% url 'landing' %}">Iniciar sesión</a>
-      <a href="{% url 'register' %}">Registrarse</a>
-      | <a href="{% url 'songs_upload' %}">Subir canción</a>
-      | <a href="{% url 'songs_list' %}">Mis canciones</a>
-      | <a href="{% url 'playlists_list' %}">Mis playlists</a>
-      | <a href="{% url 'playlists_search' %}">Buscar playlists</a>
-      | <a href="{% url 'playlist_artist_love' 1 %}">Music That I  Love (artista #1)</a>
-    {% endif %}
-  </nav>
-  <hr>
-  {% if messages %}
-    <ul class="messages">
-      {% for message in messages %}
-        <li>{{ message }}</li>
-      {% endfor %}
-    </ul>
-  {% endif %}
-  <main class="container">
-    {% block content %}{% endblock %}
-  </main>
-</body>
-=======
-=======
->>>>>>> 7aa8fb2 (refactor: integración de ramas)
-  <body>
-=======
->>>>>>> 3073765 (style: ajuste de directorios)
     <ul>
       {% if user.is_authenticated %}
         <li><a href="home">Hit Me Up</a></li>
         <li><a href="songs-list">Song List</a></li>
         <li><a href="list-playlists">Playlists</a></li>
+        <li><a href="search-lists">Playlists</a></li>
         <div>
           <form method="post" action="{% url 'logout' %}">
             {% csrf_token %}
