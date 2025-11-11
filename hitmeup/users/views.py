@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from django.contrib.auth.views import LoginView
-from .models import User
+from django.contrib.auth.views import LoginView, LogoutView
+from django.views.generic.edit import FormView
+from django.contrib.auth import login
 from .forms import RegisterForm
 
 # Create your views here.
@@ -14,13 +15,15 @@ class LandingView(LoginView):
             return redirect('home')  # o 'dashboard'
         return super().dispatch(request, *args, **kwargs)
     
-def register_user(request): 
-    if request.method == 'POST':
-        form = RegisterForm(request.POST)   
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Successfully created account")
-            return redirect('home')
-    else:
-        form = RegisterForm()
-    return render(request, "users/register.html", {"form": form})
+class RegisterView(FormView):
+    template_name = "users/register.html"
+    form_class = RegisterForm
+    success_url = "home"
+
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return super().form_valid(form)
+    
+class Logout(LogoutView):
+    success_url = "landing"
