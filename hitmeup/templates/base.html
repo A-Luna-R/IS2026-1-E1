@@ -7,6 +7,24 @@
   {% load static %}
   <link rel="stylesheet" href="{% static 'css/main.css' %}">
 </head>
+<body>
+  <nav>
+    {% if user.is_authenticated %}
+      <span>Hola, {{ user.username }}</span>
+      <a href="{% url 'logout_confirm' %}">Cerrar sesión</a>
+    {% else %}
+      <a href="{% url 'landing' %}">Iniciar sesión</a>
+      <a href="{% url 'register' %}">Registrarse</a>
+    {% endif %}
+  </nav>
+  <hr>
+  {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
   <main class="container">
     {% block content %}{% endblock %}
   </main>

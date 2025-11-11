@@ -3,6 +3,9 @@ from django.contrib import messages
 from django.contrib.auth.views import LoginView
 from .models import User
 from .forms import RegisterForm
+from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 
 # Create your views here.
 
@@ -24,3 +27,11 @@ def register_user(request):
     else:
         form = RegisterForm()
     return render(request, "users/register.html", {"form": form})
+
+def logout_confirm_view(request):
+  return render(request, "users/logout_confirm.html")
+
+def logout_view(request):
+  logout(request)
+  messages.success(request, "Has cerrado sesión correctamente.")
+  return redirect("landing")
