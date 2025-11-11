@@ -25,9 +25,8 @@
   {% load static %}
   <link rel="stylesheet" href="{% static 'css/main.css' %}">
 </head>
-<<<<<<< HEAD
-<<<<<<< HEAD
 <body>
+<<<<<<< HEAD
   <nav>
     {% if user.is_authenticated %}
       <span>Hola, {{ user.username }}</span>
@@ -58,10 +57,13 @@
 =======
 >>>>>>> 7aa8fb2 (refactor: integración de ramas)
   <body>
+=======
+>>>>>>> 3073765 (style: ajuste de directorios)
     <ul>
       {% if user.is_authenticated %}
         <li><a href="home">Hit Me Up</a></li>
         <li><a href="songs-list">Song List</a></li>
+        <li><a href="list-playlists">Playlists</a></li>
         <div>
           <form method="post" action="{% url 'logout' %}">
             {% csrf_token %}

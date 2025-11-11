@@ -2,13 +2,11 @@
 {% block content %}
 <h2>Mis playlists</h2>
 
-<p><a href="{% url 'songs_list' %}">Ver mis canciones</a></p>
-
 {% if playlists %}
   <ul>
   {% for p in playlists %}
     <li>
-      <a href="{% url 'playlist_detail' p.id %}">
+      <a href="{% url 'playlist' p.id %}">
         <strong>{{ p.name }}</strong>
       </a>
       {% if p.description %}<br><small>{{ p.description }}</small>{% endif %}

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'home',
 <<<<<<< HEAD
+<<<<<<< HEAD
     'songs',
     'playlists',
 <<<<<<< HEAD
@@ -50,6 +51,11 @@ INSTALLED_APPS = [
     'songs',
 >>>>>>> 7aa8fb2 (refactor: integración de ramas)
 >>>>>>> fbe7d77 (refactor: integración de ramas)
+=======
+    'users',
+    'songs',
+    'playlists',
+>>>>>>> 4aacd27 (refactor: integración de ramas)
 ]
 
 MIDDLEWARE = [
