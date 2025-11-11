@@ -15,6 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+<<<<<<< HEAD
 from django.urls import path, include
 # from .views import LandingView, register_user
 from .views import LandingView, register_user, logout_confirm_view, logout_view
@@ -24,4 +25,13 @@ urlpatterns = [
     path('register', register_user, name= 'register'),
     path('logout/confirm', logout_confirm_view, name= 'logout_confirm'),
     path('logout', logout_view, name= 'logout'),
+=======
+from django.urls import path
+from .views import LandingView, RegisterView, Logout
+
+urlpatterns = [
+    path('', LandingView.as_view(), name= "landing"),
+    path('register', RegisterView.as_view(), name= "register"), 
+    path('logout', Logout.as_view(), name= "logout"),
+>>>>>>> f492059 (fix(register): usuarios se registran correctamente; feat(logout) implementación del cierre de sesión)
 ]
