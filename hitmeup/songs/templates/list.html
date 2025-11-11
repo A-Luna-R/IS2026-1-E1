@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Mis canciones</h2>
+
+<p><a href="{% url 'songs_upload' %}">Subir nueva canción</a></p>
+
+{% if songs %}
+  <ul>
+  {% for s in songs %}
+    <li>
+      <strong>{{ s.title }}</strong> {% if s.artist %}– {{ s.artist }}{% endif %}
+      <br>
+      <audio controls src="{{ s.audio.url }}"></audio>
+      <form method="post" action="{% url 'songs_delete' s.id %}">
+        {% csrf_token %}
+        <button type="submit">Eliminar</button>
+      </form>
+      <small>Agregada: {{ s.created_at|date:"Y-m-d H:i" }}</small>
+    </li>
+  {% endfor %}
+  </ul>
+{% else %}
+  <p>Aún no has subido canciones.</p>
+{% endif %}
+{% endblock %}
