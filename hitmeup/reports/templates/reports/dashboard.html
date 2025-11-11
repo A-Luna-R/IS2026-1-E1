@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Panel de reportes</h2>
+
+<form method="get" action="{% url 'reports_dashboard' %}" style="margin-bottom:1rem">
+  <label>Desde: <input type="date" name="start" value="{{ start }}"></label>
+  <label>Hasta: <input type="date" name="end" value="{{ end }}"></label>
+  <button type="submit">Filtrar</button>
+</form>
+
+<h3>Totales</h3>
+<table border="1" cellpadding="6">
+  <tr><th>Métrica</th><th>Valor</th></tr>
+  <tr><td>Usuarios</td><td>{{ totals.users }}</td></tr>
+  <tr><td>Artistas</td><td>{{ totals.artists }}</td></tr>
+  <tr><td>Canciones</td><td>{{ totals.songs }}</td></tr>
+  <tr><td>Playlists</td><td>{{ totals.playlists }}</td></tr>
+  <tr><td>Playlists públicas</td><td>{{ totals.playlists_public }}</td></tr>
+  <tr><td>Likes (artista→canción)</td><td>{{ totals.likes }}</td></tr>
+</table>
+
+<p style="margin-top:0.75rem">
+  Exportar:
+  <a href="{% url 'reports_export_summary' %}?start={{ start }}&end={{ end }}">Resumen CSV</a> |
+  <a href="{% url 'reports_export_songs' %}?start={{ start }}&end={{ end }}">Canciones CSV</a> |
+  <a href="{% url 'reports_export_playlists' %}?start={{ start }}&end={{ end }}">Playlists CSV</a> |
+  <a href="{% url 'reports_export_likes' %}?start={{ start }}&end={{ end }}">Likes CSV</a>
+</p>
+
+<h3 style="margin-top:1.5rem">Series por día (rango seleccionado)</h3>
+<div style="display:flex; gap:2rem; flex-wrap:wrap">
+  <div>
+    <h4>Canciones/día</h4>
+    {% if songs_by_day %}
+      <table border="1" cellpadding="6">
+        <tr><th>Día</th><th>Cantidad</th></tr>
+        {% for r in songs_by_day %}
+          <tr><td>{{ r.day }}</td><td>{{ r.count }}</td></tr>
+        {% endfor %}
+      </table>
+    {% else %}
+      <p>Sin datos en el rango.</p>
+    {% endif %}
+  </div>
+
+  <div>
+    <h4>Playlists/día</h4>
+    {% if playlists_by_day %}
+      <table border="1" cellpadding="6">
+        <tr><th>Día</th><th>Cantidad</th></tr>
+        {% for r in playlists_by_day %}
+          <tr><td>{{ r.day }}</td><td>{{ r.count }}</td></tr>
+        {% endfor %}
+      </table>
+    {% else %}
+      <p>Sin datos en el rango.</p>
+    {% endif %}
+  </div>
+
+  <div>
+    <h4>Likes/día</h4>
+    {% if likes_by_day %}
+      <table border="1" cellpadding="6">
+        <tr><th>Día</th><th>Cantidad</th></tr>
+        {% for r in likes_by_day %}
+          <tr><td>{{ r.day }}</td><td>{{ r.count }}</td></tr>
+        {% endfor %}
+      </table>
+    {% else %}
+      <p>Sin datos en el rango.</p>
+    {% endif %}
+  </div>
+</div>
+
+<h3 style="margin-top:1.5rem">Top 10</h3>
+<div style="display:flex; gap:2rem; flex-wrap:wrap">
+  <div>
+    <h4>Canciones más presentes en playlists</h4>
+    {% if top_songs %}
+      <table border="1" cellpadding="6">
+        <tr><th>Canción</th><th>Veces en playlists</th></tr>
+        {% for r in top_songs %}
+          <tr><td>{{ r.song__title }}</td><td>{{ r.cnt }}</td></tr>
+        {% endfor %}
+      </table>
+    {% else %}
+      <p>Sin datos.</p>
+    {% endif %}
+  </div>
+
+  <div>
+    <h4>Playlists con más canciones</h4>
+    {% if top_playlists %}
+      <table border="1" cellpadding= "6">
+        <tr><th>Playlist</th><th>Total canciones</th></tr>
+        {% for r in top_playlists %}
+          <tr><td>{{ r.playlist__name }}</td><td>{{ r.cnt }}</td></tr>
+        {% endfor %}
+      </table>
+    {% else %}
+      <p>Sin datos.</p>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}
