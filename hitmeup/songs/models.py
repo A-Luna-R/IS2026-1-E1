@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 class Song (models.Model):
     owner = models.ForeignKey(User, on_delete= models.CASCADE, related_name='songs')
     title = models.CharField(max_length= 200)
-    artist = models.CharField(max_length= 200, blank=True)  # opcional
+    artist = models.CharField(max_length= 200)  
     audio = models.FileField(upload_to= 'songs/%Y/%m/')      # se guarda en MEDIA_ROOT/songs/...
     created_at = models.DateTimeField(auto_now_add= True)
 

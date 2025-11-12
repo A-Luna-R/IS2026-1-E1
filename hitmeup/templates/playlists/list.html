@@ -2,9 +2,9 @@
 {% block content %}
 <h2>Mis playlists</h2>
 
-{% if playlists %}
+{% if Playlists %}
   <ul>
-  {% for p in playlists %}
+  {% for p in Playlists %}
     <li>
       <a href="{% url 'playlist' p.id %}">
         <strong>{{ p.name }}</strong>
