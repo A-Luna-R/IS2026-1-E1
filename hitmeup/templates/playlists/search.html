@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Buscar playlists</h2>
+
+<form method="get" action="{% url 'search-lists' %}" style="margin-bottom:1rem">
+  <input type="text" name="q" value="{{ q }}" placeholder="Nombre, descripción o canción..." required>
+  <button type="submit">Buscar</button>
+  <a href="{% url 'list-playlists' %}">Mis playlists</a>
+</form>
+
+{% if q and count == 0 %}
+  <p>No se encontraron playlists para “<strong>{{ q }}</strong>”.</p>
+{% elif q %}
+  <p>Resultados: <strong>{{ count }}</strong> para “<strong>{{ q }}</strong>”.</p>
+  <ul>
+    {% for p in results %}
+      <li>
+        <a href="{% url 'playlist' p.id %}"><strong>{{ p.name }}</strong></a>
+        {% if p.description %}<br><small>{{ p.description }}</small>{% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>Escribe tu playlist fav y presiona “Buscar”.</p>
+{% endif %}
+{% endblock %}

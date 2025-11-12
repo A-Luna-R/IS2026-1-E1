@@ -1,0 +1,11 @@
+body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 0; }
+.my-box {
+    width: fit-content;
+    height: fit-content;
+    margin: auto;
+    font-size: larger;
+    border: 5px ghostwhite;
+    border-style: outset;
+    border-radius: 5px;
+    padding: 10px;
+  }

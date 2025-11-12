@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Mis playlists</h2>
+
+{% if Playlists %}
+  <ul>
+  {% for p in Playlists %}
+    <li>
+      <a href="{% url 'playlist' p.id %}">
+        <strong>{{ p.name }}</strong>
+      </a>
+      {% if p.description %}<br><small>{{ p.description }}</small>{% endif %}
+      <br><small>Creada: {{ p.created_at|date:"Y-m-d H:i" }}</small>
+    </li>
+  {% endfor %}
+  </ul>
+{% else %}
+  <p>No tienes playlists aún.</p>
+{% endif %}
+{% endblock %}
