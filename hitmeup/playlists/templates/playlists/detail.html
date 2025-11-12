@@ -3,7 +3,15 @@
 <h2>{{ playlist.name }}</h2>
 {% if playlist.description %}<p>{{ playlist.description }}</p>{% endif %}
 
-<p><a href="{% url 'playlists_list' %}">← Volver a mis playlists</a></p>
+{% if user.is_authenticated %}
+  {% if playlist.owner_user and playlist.owner_user.id == user.id %}
+    <p><a href="{% url 'playlist_edit_user' playlist.id %}">Editar playlist</a></p>
+  {% elif playlist.owner_artist and user.artist_profile and user.artist_profile.id == playlist.owner_artist.id %}
+    <p><a href="{% url 'playlist_edit_artist' playlist.id %}">Editar playlist (artista)</a></p>
+  {% endif %}
+{% endif %}
+
+<p><a href="{% url 'playlists_list' %}">🔙 Volver a mis playlists</a></p>
 
 {% if songs %}
   <ul>
