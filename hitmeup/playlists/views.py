@@ -14,6 +14,7 @@ from django.shortcuts import redirect
 from django.contrib import messages
 from .forms import PlaylistCreateForm
 from songs.models import Song
+from django.db import transaction
 
 def playlists_list(request):
     lists_ = Playlist.objects.filter(owner= request.user)
@@ -136,3 +137,40 @@ def create_playlist_artist(request):
         'owner_kind': 'artist',
         'artist_profile': artist_profile,
     })
+
+def _is_owner(request, pl: Playlist) -> bool:
+    if pl.owner_user and pl.owner_user_id == request.user.id:
+        return True
+    artist_profile = getattr(request.user, 'artist_profile', None)
+    if pl.owner_artist and artist_profile and pl.owner_artist_id == artist_profile.id:
+        return True
+    return False
+
+def delete_playlist_user(request, playlist_id: int):
+    pl = get_object_or_404(Playlist, id=playlist_id, owner_user__isnull=False)
+    if not _is_owner(request, pl) or pl.owner_user_id != request.user.id:
+        return HttpResponseForbidden("No autorizado.")
+
+    if request.method == 'POST':
+        with transaction.atomic():
+            name = pl.name
+            pl.delete()
+        messages.success(request, f'Playlist "{name}" eliminada.')
+        return redirect('playlists_list')
+
+    return render(request, 'playlists/delete_confirm.html', {'playlist': pl, 'owner_kind': 'user'})
+
+def delete_playlist_artist(request, playlist_id: int):
+    pl = get_object_or_404(Playlist, id=playlist_id, owner_artist__isnull=False)
+    if not _is_owner(request, pl):
+        return HttpResponseForbidden("No autorizado.")
+
+    if request.method == 'POST':
+        with transaction.atomic():
+            name = pl.name
+            pl.delete()
+        messages.success(request, f'Playlist (artista) "{name}" eliminada.')
+        return redirect('playlists_list')
+
+    return render(request, 'playlists/delete_confirm.html', {'playlist': pl, 'owner_kind': 'artist'})
+
