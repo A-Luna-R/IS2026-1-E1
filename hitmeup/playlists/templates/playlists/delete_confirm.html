@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>
+  Eliminar playlist: "{{ playlist.name }}"
+  {% if owner_kind == 'artist' and playlist.owner_artist %} (artista: {{ playlist.owner_artist.stage_name }}){% endif %}
+</h2>
+
+<p>Esta acción eliminará la playlist y sus relaciones (canciones dentro y likes). No afectará los archivos de audio originales.</p>
+
+<form method="post" style="margin-top:1rem">
+  {% csrf_token %}
+  <button type="submit" style="color:#b00">Sí, eliminar</button>
+  <a href="{% url 'playlist_detail' playlist.id %}">Cancelar</a>
+</form>
+{% endblock %}
