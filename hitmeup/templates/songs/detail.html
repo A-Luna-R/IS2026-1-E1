@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ song.title }}{% if song.artist %} — <em>{{ song.artist }}</em>{% endif %}</h2>
+<p><small>Subida por: {{ song.owner.username }} · {{ song.created_at|date:"Y-m-d H:i" }}</small></p>
+
+<audio controls src="{{ song.audio.url }}"></audio>
+
+<p style="margin-top:.5rem">
+  <small>❤️ usuarios: {{ likes_users }} · ❤️ artistas: {{ likes_artists }}</small>
+</p>
+
+{% if user.is_authenticated %}
+  <div style="margin-top:.5rem">
+    {% if liked_user %}
+      <a href="{% url 'songs_like_user' song.id %}">💔 Quitar like (usuario)</a>
+    {% else %}
+      <a href="{% url 'songs_like_user' song.id %}">❤️ Me gusta (usuario)</a>
+    {% endif %}
+
+    {% if has_artist %}
+      {% if liked_artist %}
+        &nbsp;|&nbsp; <a href="{% url 'artist_toggle_like' user.artist_profile.id song.id %}">💔 Quitar like (artista)</a>
+      {% else %}
+        &nbsp;|&nbsp; <a href="{% url 'artist_toggle_like' user.artist_profile.id song.id %}">❤️ Me gusta (artista)</a>
+      {% endif %}
+    {% endif %}
+  </div>
+{% endif %}
+
+<p style="margin-top:1rem"><a href="{% url 'songs_explore' %}">← Volver a explorar</a></p>
+{% endblock %}
