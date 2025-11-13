@@ -32,6 +32,7 @@
       | <a href="{% url 'songs_liked' %}">Mis likes</a>
       | <a href="{% url 'playlist_create_user' %}">Crear playlist</a>
       | <a href="{% url 'songs_explore' %}">Ver canciones</a>
+      | <a href="{% url 'people_search' %}">Buscar usuarios/artistas</a>
       {% if user.artist_profile %}
         | <a href="{% url 'playlist_create_artist' %}">Crear playlist (artista)</a>
       {% endif %}
