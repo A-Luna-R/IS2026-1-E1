@@ -25,6 +25,7 @@
         {% if user.is_authenticated %}
           {% if s.id in liked_user_ids %}
             <a href="{% url 'songs_like_user' s.id %}">💔 Quitar like (usuario)</a>
+            <a href="{% url 'abuse_report_song' s.id %}">Reportar</a>
           {% else %}
             <a href="{% url 'songs_like_user' s.id %}">❤️ Me gusta (usuario)</a>
           {% endif %}

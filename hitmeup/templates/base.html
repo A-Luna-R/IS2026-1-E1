@@ -17,8 +17,12 @@
       | <a href="{% url 'people_search' %}">Buscar usuarios/
       artistas</a>
       | <a href="{% url 'playlists_liked' %}">Playlists que me gustan</a>
+      | <a href="{% url 'abuse_my_reports' %}">Mis reportes</a>
       {% if user.artist_profile %}
         | <a href="{% url 'playlist_create_artist' %}">Crear playlist (artista)</a>
+      {% endif %}
+      {% if user.is_staff %}
+        | <a href="{% url 'abuse_review_list' %}">Moderación</a>
       {% endif %}
       <span>Hola, {{ user.username }}</span>
       <a href="{% url 'logout_confirm' %}">Cerrar sesión</a>

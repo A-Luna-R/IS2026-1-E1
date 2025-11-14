@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'artists',
     'reports',
     'notifications',
+    'abuse',
 
 ]
 

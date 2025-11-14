@@ -25,6 +25,11 @@
       {% endif %}
     {% endif %}
   </div>
+
+  <!-- NUEVA SECCIÓN: Reportar canción -->
+  <p style="margin-top:.75rem">
+    <a href="{% url 'abuse_report_song' song.id %}">⚠️ Reportar esta canción</a>
+  </p>
 {% endif %}
 
 <p style="margin-top:1rem"><a href="{% url 'songs_explore' %}">← Volver a explorar</a></p>

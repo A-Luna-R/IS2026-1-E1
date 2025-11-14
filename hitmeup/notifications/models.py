@@ -8,7 +8,7 @@ from django.utils import timezone
 from artists.models import Artist
 
 class Notification(models.Model):
-    recipient_user   = models.ForeignKey(User,   null= True, blank= rue, on_delete=models.CASCADE, related_name='notifications')
+    recipient_user   = models.ForeignKey(User,   null= True, blank= True, on_delete=models.CASCADE, related_name='notifications')
     recipient_artist = models.ForeignKey(Artist, null= True, blank=True, on_delete=models.CASCADE, related_name='notifications')
 
     actor_ct  = models.ForeignKey(ContentType, null= True, blank= True, on_delete=models.SET_NULL, related_name='+')

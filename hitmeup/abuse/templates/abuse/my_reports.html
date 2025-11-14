@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Mis reportes</h2>
+
+{% if page_obj.object_list %}
+  <ul>
+  {% for r in page_obj.object_list %}
+    <li style="margin-bottom:.75rem">
+      <strong>{{ r.song.title }}</strong>
+      — Motivo: {{ r.get_reason_display }} — Estado: <em>{{ r.get_status_display }}</em>
+      <br><small>Enviado: {{ r.created_at|date:"Y-m-d H:i" }}</small>
+      {% if r.resolved_at %}<br><small>Resuelto: {{ r.resolved_at|date:"Y-m-d H:i" }} ({{ r.resolution_notes }})</small>{% endif %}
+    </li>
+  {% endfor %}
+  </ul>
+
+  <div>
+    {% if page_obj.has_previous %}
+      <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+    {% endif %}
+    <span>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+    {% endif %}
+  </div>
+{% else %}
+  <p>No has enviado reportes.</p>
+{% endif %}
+{% endblock %}
