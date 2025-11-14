@@ -30,3 +30,20 @@ class PlaylistSong(models.Model):
 
     def __str__(self):
         return f"{self.playlist.name} → {self.song.title}"
+
+class UserPlaylistLike(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='playlist_likes')
+    playlist = models.ForeignKey(Playlist, on_delete=models.CASCADE, related_name='liked_by_users')
+    created_at = models.DateTimeField(auto_now_add=True)
+    class Meta:
+        unique_together = ('user', 'playlist')
+        ordering = ['-created_at']
+
+class ArtistPlaylistLike(models.Model):
+    artist = models.ForeignKey(Artist, on_delete=models.CASCADE, related_name='playlist_likes')
+    playlist = models.ForeignKey(Playlist, on_delete= models.CASCADE, related_name='liked_by_artists')
+    created_at = models.DateTimeField(auto_now_add=True)
+    class Meta:
+        unique_together = ('artist', 'playlist')
+        ordering = ['-created_at']
+

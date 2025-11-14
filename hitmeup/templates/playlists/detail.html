@@ -4,6 +4,24 @@
 {% if playlist.description %}<p>{{ playlist.description }}</p>{% endif %}
 
 {% if user.is_authenticated %}
+  <div style="margin:.5rem 0">
+    {% if liked_user %}
+      <a href="{% url 'playlist_like_user' playlist.id %}">💔 Quitar like (usuario)</a>
+    {% else %}
+      <a href="{% url 'playlist_like_user' playlist.id %}">❤️ Me gusta (usuario)</a>
+    {% endif %}
+
+    {% if has_artist %}
+      {% if liked_artist %}
+        &nbsp;|&nbsp; <a href="{% url 'playlist_like_artist' playlist.id %}">💔 Quitar like (artista)</a>
+      {% else %}
+        &nbsp;|&nbsp; <a href="{% url 'playlist_like_artist' playlist.id %}">❤️ Me gusta (artista)</a>
+      {% endif %}
+    {% endif %}
+  </div>
+{% endif %}
+
+{% if user.is_authenticated %}
   {% if playlist.owner_user and playlist.owner_user.id == user.id %}
     <p>
       <a href="{% url 'playlist_edit_user' playlist.id %}">✏️ Editar playlist</a>
@@ -25,8 +43,8 @@
   <ul>
   {% for s in songs %}
     <li>
-      <strong>{{ s.title }}</strong> {% if s.artist %} –
-      {{ s.artist }}{% endif %}
+      <strong>{{ s.title }}</strong>
+      {% if s.artist %} – {{ s.artist }}{% endif %}
       <br>
       <audio controls src="{{ s.audio.url }}"></audio>
     </li>

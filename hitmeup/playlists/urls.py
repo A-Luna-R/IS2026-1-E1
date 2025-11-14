@@ -11,5 +11,8 @@ urlpatterns = [
     path('new/artist', views.create_playlist_artist, name='playlist_create_artist'),
     path('delete/<int:playlist_id>', views.delete_playlist_user, name='playlist_delete_user'),
     path('delete/artist/<int:playlist_id>', views.delete_playlist_artist, name= 'playlist_delete_artist'),
+    path('like/user/<int:playlist_id>', views.playlist_toggle_like_user, name= 'playlist_like_user'),
+    path('like/artist/<int:playlist_id>', views.playlist_toggle_like_artist, name= 'playlist_like_artist'),
+    path('liked', views.playlists_liked, name= 'playlists_liked'),
 ]
 
