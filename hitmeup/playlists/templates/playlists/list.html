@@ -11,12 +11,36 @@
       <a href="{% url 'playlist_detail' p.id %}">
         <strong>{{ p.name }}</strong>
       </a>
-      {% if p.description %}<br><small>{{ p.description }}</small>{% endif %}
+
+      {% if p.description %}
+        <br><small>{{ p.description }}</small>
+      {% endif %}
       <br><small>Creada: {{ p.created_at|date:"Y-m-d H:i" }}</small>
+
+      {# --- Botones de like --- #}
+      {% if user.is_authenticated %}
+        <div style="margin-top:.3rem">
+          {% if p.id in liked_user_ids %}
+            <a href="{% url 'playlist_like_user' p.id %}">💔 (usuario)</a>
+          {% else %}
+            <a href="{% url 'playlist_like_user' p.id %}">❤️ (usuario)</a>
+          {% endif %}
+
+          {% if has_artist %}
+            {% if p.id in liked_artist_ids %}
+              &nbsp;|&nbsp; <a href="{% url 'playlist_like_artist' p.id %}">💔 (artista)</a>
+            {% else %}
+              &nbsp;|&nbsp; <a href="{% url 'playlist_like_artist' p.id %}">❤️ (artista)</a>
+            {% endif %}
+          {% endif %}
+        </div>
+      {% endif %}
+      {# ------------------------ #}
+
     </li>
   {% endfor %}
   </ul>
 {% else %}
-  <p>No tienes playlists aún.</p>
+  <p>Aún no hay playlists.</p>
 {% endif %}
 {% endblock %}
