@@ -37,7 +37,7 @@ def delete_song(request, song_id):
         song.delete()
         messages.success(request, "Canción eliminada.")
         return redirect('songs_list')
-    return render(request, 'songs/delete_confirm.html', {'song': song})
+    return render(request, 'songs/confirm_delete.html', {'song': song})
 
 def toggle_like_user(request, song_id: int):
     song = get_object_or_404(Song, id=song_id)
