@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-<<<<<<< HEAD
+    path('liked', views.playlists_liked, name= 'playlists_liked'),
     path('list-playlists', views.playlists_list, name= 'list-playlists'),
     path('<int:playlist_id>', views.playlist_detail, name= 'playlist'),
     path('search-lists', views.playlists_search, name= 'search-lists'),
@@ -14,5 +14,5 @@ urlpatterns = [
     path('delete/artist/<int:playlist_id>', views.delete_playlist_artist, name= 'playlist_delete_artist'),
     path('like/user/<int:playlist_id>', views.playlist_toggle_like_user, name= 'playlist_like_user'),
     path('like/artist/<int:playlist_id>', views.playlist_toggle_like_artist, name= 'playlist_like_artist'),
-    path('liked', views.playlists_liked, name= 'playlists_liked'),
+
 ]
