@@ -42,7 +42,7 @@ def playlists_list(request):
                     playlist__in=lists_
                 ).values_list('playlist_id', flat=True)
             )
-
+    
     return render(request, 'playlists/list.html', {
         'playlists': lists_,
         'liked_user_ids': liked_user_ids,

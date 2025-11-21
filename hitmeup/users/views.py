@@ -36,7 +36,7 @@ class Logout(LogoutView):
     success_url = "landing"
 
 def search_people(request):
-q = (request.GET.get('q') or '').strip()
+    q = (request.GET.get('q') or '').strip()
     kind = (request.GET.get('type') or 'all').strip().lower()
     kind = kind if kind in ('users', 'artists', 'all') else 'all'
 
@@ -87,21 +87,3 @@ q = (request.GET.get('q') or '').strip()
         'page_obj': page_obj,
     }
     return render(request, 'users/search_people.html', ctx)
-
-class RegisterView(FormView):
-    template_name = "users/register.html"
-    form_class = RegisterForm
-    success_url = "home"
-
-    def form_valid(self, form):
-        user = form.save()
-        login(self.request, user)
-        return super().form_valid(form)
-    
-class Logout(LogoutView):
-    success_url = "landing"
-<<<<<<< HEAD
->>>>>>> f492059 (fix(register): usuarios se registran correctamente; feat(logout) implementación del cierre de sesión)
->>>>>>> dd949a4 (fix(register): usuarios se registran correctamente; feat(logout) implementación del cierre de sesión)
-=======
->>>>>>> 9a2a0e0 (refactor: integración de ramas)

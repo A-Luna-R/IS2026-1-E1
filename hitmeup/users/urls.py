@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.urls import path, include
 from django.urls import path
-from .views import LandingView, RegisterView, Logout
+from .views import LandingView, RegisterView, Logout, search_people
 
 urlpatterns = [
     path('', LandingView.as_view(), name= "landing"),

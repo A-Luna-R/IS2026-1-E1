@@ -5,25 +5,13 @@
     list-style-type: none;
     margin: 0;
     padding: 0;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
     background-color: #333333;
->>>>>>> 6bbae63 (fix(register): usuarios se registran correctamente; feat(logout) implementación del cierre de sesión)
-=======
->>>>>>> 7401da3 (refactor: integración de ramas)
     display: flex;
     }
 
     ul li a {
     display: block;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
     color: white;
->>>>>>> 6bbae63 (fix(register): usuarios se registran correctamente; feat(logout) implementación del cierre de sesión)
-=======
->>>>>>> 7401da3 (refactor: integración de ramas)
     padding: 14px 16px;
     text-decoration: none;
     }
@@ -40,61 +28,38 @@
   <link rel="stylesheet" href="{% static 'css/main.css' %}">
 </head>
 <body>
-    <ul>
-      {% if user.is_authenticated %}
-        <li><a href="home">Hit Me Up</a></li>
-        <li><a href="songs-list">Song List</a></li>
-        <li><a href="list-playlists">Playlists</a></li>
-        <li><a href="search-lists">Playlists</a></li>
-        <div>
-          <form method="post" action="{% url 'logout' %}">
-            {% csrf_token %}
-            <button type="submit" style="border: none; color: white; background-color: black; padding: 15px 32px; cursor: pointer; position: absolute; right: 0px;">Log Out</button>
-          </form>
-        </div>
-      {% else %}
-        <p style="color: white;"> &nbsp; Hit Me Up</p>  
+  <nav>
+
+    {% if user.is_authenticated %}
+      | <a href="{% url 'songs_liked' %}">Mis likes</a>
+      | <a href="{% url 'playlist_create_user' %}">Crear playlist</a>
+      | <a href="{% url 'songs_explore' %}">Ver canciones</a>
+      | <a href="{% url 'people_search' %}">Buscar usuarios/
+      artistas</a>
+      | <a href="{% url 'playlists_liked' %}">Playlists que me gustan</a>
+      | <a href="{% url 'abuse_my_reports' %}">Mis reportes</a>
+      {% if user.artist_profile %}
+        | <a href="{% url 'playlist_create_artist' %}">Crear playlist (artista)</a>
       {% endif %}
-    </ul>
-    <hr>
+      {% if user.is_staff %}
+        | <a href="{% url 'abuse_review_list' %}">Moderación</a>
+      {% endif %}
+      <span>Hola, {{ user.username }}</span>
+      <form method="post" action="{% url 'logout' %}">
+              {% csrf_token %}
+              <button type="submit" style="border: none; color: white; background-color: black; padding: 15px 32px; cursor: pointer; position: absolute; right: 0px;">Log Out</button>
+      </form>
+      {% endif %}
+  </nav>
+  <hr>
   {% if messages %}
     <ul class="messages">
       {% for message in messages %}
         <li>{{ message }}</li>
       {% endfor %}
     </ul>
-<<<<<<< HEAD
-    <main class="container">
-      {% block content %}{% endblock %}
-    </main>
-  </body>
-=======
   {% endif %}
-<<<<<<< HEAD
   <main class="container">
-    {% block content %}{% endblock %}
-  </main>
-</body>
-<<<<<<< HEAD
->>>>>>> 6bbae63 (fix(register): usuarios se registran correctamente; feat(logout) implementación del cierre de sesión)
-</html>
-=======
-=======
-  <body>
-    <ul>
-      <li><a href="home">Hit Me Up</a></li>
-      {% if user.is_authenticated %}
-        <div>
-            <form method="post" action="{% url 'logout' %}">
-              {% csrf_token %}
-              <button type="submit" style="border: none; color: white; background-color: black; padding: 15px 32px; cursor: pointer; position: absolute; right: 0px;">Log Out</button>
-            </form>
-        </div>
-      {% endif %}
-    </ul>
-=======
->>>>>>> 7401da3 (refactor: integración de ramas)
-    <main class="container">
       {% block content %}{% endblock %}
     </main>
   </body>
