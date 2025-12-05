@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Reportar canción: {{ song.title }}{% if song.artist %} — {{ song.artist }}{% endif %}</h2>
+
+<form method="post">
+  {% csrf_token %}
+  <p>
+    <label for="id_reason">Motivo:</label><br>
+    {{ form.reason }}
+    {% if form.reason.errors %}<br><small style="color:red">{{ form.reason.errors|join:", " }}</small>{% endif %}
+  </p>
+
+  <p>
+    <label for="id_details">Detalles (opcional):</label><br>
+    {{ form.details }}
+    {% if form.details.errors %}<br><small style="color:red">{{ form.details.errors|join:", " }}</small>{% endif %}
+  </p>
+
+  <p>
+    <button type="submit">Enviar reporte</button>
+    <a href="{% url 'song_detail' song.id %}">Cancelar</a>
+  </p>
+</form>
+{% endblock %}

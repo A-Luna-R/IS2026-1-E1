@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Buscar usuarios / artistas</h2>
+
+<form method="get" action="{% url 'people_search' %}" style="margin-bottom:1rem">
+  <input type="text" name="q" value="{{ q }}" placeholder="Nombre de usuario, nombre, apellido, artista..." required>
+  <select name="type">
+    <option value="all" {% if type == 'all' %}selected{% endif %}>Todos</option>
+    <option value="users" {% if type == 'users' %}selected{% endif %}>Usuarios</option>
+    <option value="artists" {% if type == 'artists' %}selected{% endif %}>Artistas</option>
+  </select>
+  <button type="submit">Buscar</button>
+</form>
+
+{% if q and not page_obj.object_list %}
+  <p>No se encontraron resultados para “<strong>{{ q }}</strong>”.</p>
+{% endif %}
+
+{% if page_obj.object_list %}
+  <ul>
+    {% for item in page_obj.object_list %}
+      <li style="margin-bottom:.75rem">
+        {% if item.type == 'user' %}
+          👤 <strong>{{ item.title }}</strong>
+          {% if item.subtitle %}<br><small>{{ item.subtitle }}</small>{% endif %}
+        {% elif item.type == 'artist' %}
+          🎤 <strong>{{ item.title }}</strong> <small>(Artista)</small>
+          {% if item.subtitle %}<br><small>{{ item.subtitle }}</small>{% endif %}
+          &nbsp; <a href="{% url 'playlist_artist_love' item.id %}">Music That I Love</a>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+
+  <div>
+    {% if page_obj.has_previous %}
+      <a href="?q={{ q }}&type={{ type }}&page={{ page_obj.previous_page_number }}">Anterior</a>
+    {% endif %}
+    <span>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+      <a href="?q={{ q }}&type={{ type }}&page={{ page_obj.next_page_number }}">Siguiente</a>
+    {% endif %}
+  </div>
+{% endif %}
+{% endblock %}

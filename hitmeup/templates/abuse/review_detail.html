@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Reporte #{{ r.id }} — {{ r.song.title }}</h2>
+<p>Motivo: <strong>{{ r.get_reason_display }}</strong></p>
+{% if r.details %}<p>Detalles: {{ r.details }}</p>{% endif %}
+<p>Estado actual: <strong>{{ r.get_status_display }}</strong></p>
+
+<form method="post" style="margin-top:1rem">
+  {% csrf_token %}
+  <p>
+    <label>Nuevo estado:</label>
+    <select name="status">
+      {% for k, label in STATUS_CHOICES %}
+        <option value="{{ k }}" {% if r.status == k %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+  </p>
+  <p>
+    <label>Notas de resolución (opcional):</label><br>
+    <textarea name="resolution_notes" rows="4" placeholder="Notas internas para moderación...">{{ r.resolution_notes }}</textarea>
+  </p>
+  <button type="submit">Actualizar</button>
+  <a href="{% url 'abuse_review_list' %}?status={{ r.status }}">Volver</a>
+</form>
+
+{% if r.resolved_at %}
+  <p style="margin-top:.75rem"><small>Resuelto por {{ r.resolved_by }} el {{ r.resolved_at|date:"Y-m-d H:i" }}</small></p>
+{% endif %}
+{% endblock %}

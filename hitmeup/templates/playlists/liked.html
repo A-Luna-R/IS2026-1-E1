@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Playlists que me gustan</h2>
+
+<h3>Como usuario</h3>
+{% if liked_as_user %}
+  <ul>
+    {% for p in liked_as_user %}
+      <li><a href="{% url 'playlist_detail' p.id %}">{{ p.name }}</a></li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No has dado like (usuario).</p>
+{% endif %}
+
+{% if has_artist %}
+<h3>Como artista</h3>
+  {% if liked_as_artist %}
+    <ul>
+      {% for p in liked_as_artist %}
+        <li><a href="{% url 'playlist_detail' p.id %}">{{ p.name }}</a></li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No has dado like (artista).</p>
+  {% endif %}
+{% endif %}
+{% endblock %}

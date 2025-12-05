@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block content %}
+
+<nav>
+    {% if user.is_authenticated %}
+      <a href="{% url 'upload-song' %}">Subir canciones</a>
+      {% endif %}
+  </nav>
+
+
+<h2>Explorar canciones</h2>
+
+<form method="get" action="{% url 'songs_explore' %}" style="margin-bottom:1rem">
+  <input type="text" name="q" value="{{ q }}" placeholder="Buscar por título, artista o usuario...">
+  <select name="order">
+    <option value="newest" {% if order == 'newest' %}selected{% endif %}>Más nuevas</option>
+    <option value="title" {% if order == 'title' %}selected{% endif %}>Título (A–Z)</option>
+    <option value="most_liked" {% if order == 'most_liked' %}selected{% endif %}>Más likes (usuarios)</option>
+    <option value="most_liked_artists" {% if order == 'most_liked_artists' %}selected{% endif %}>Más likes (artistas)</option>
+  </select>
+  <button type="submit">Buscar</button>
+</form>
+
+{% if page_obj.object_list %}
+  <ul>
+    {% for s in page_obj.object_list %}
+      <li style="margin-bottom:1rem">
+        <a href="{% url 'song_detail' s.id %}"><strong>{{ s.title }}</strong></a>
+        {% if s.artist %} — <em>{{ s.artist }}</em>{% endif %}
+        <br><small>Subida por: {{ s.owner.username }} · {{ s.created_at|date:"Y-m-d H:i" }}</small>
+        <br><small>❤️ usuarios: {{ s.likes_users }} · ❤️ artistas: {{ s.likes_artists }}</small>
+        <br>
+        {% if user.is_authenticated %}
+          {% if s.id in liked_user_ids %}
+            <a href="{% url 'songs_like_user' s.id %}">💔 Quitar like (usuario)</a>
+            <a href="{% url 'abuse_report_song' s.id %}">Reportar</a>
+          {% else %}
+            <a href="{% url 'songs_like_user' s.id %}">❤️ Me gusta (usuario)</a>
+          {% endif %}
+
+          {% if has_artist %}
+            {% if s.id in liked_artist_ids %}
+              &nbsp;|&nbsp; <a href="{% url 'artist_toggle_like' user.artist_profile.id s.id %}">💔 Quitar like (artista)</a>
+            {% else %}
+              &nbsp;|&nbsp; <a href="{% url 'artist_toggle_like' user.artist_profile.id s.id %}">❤️ Me gusta (artista)</a>
+            {% endif %}
+          {% endif %}
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+
+  <div>
+    {% if page_obj.has_previous %}
+      <a href="?q={{ q }}&order={{ order }}&page={{ page_obj.previous_page_number }}">Anterior</a>
+    {% endif %}
+    <span>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+      <a href="?q={{ q }}&order={{ order }}&page={{ page_obj.next_page_number }}">Siguiente</a>
+    {% endif %}
+  </div>
+{% else %}
+  <p>No se encontraron canciones.</p>
+{% endif %}
+{% endblock %}

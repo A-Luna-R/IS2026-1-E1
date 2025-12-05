@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Moderación: reportes ({{ status }})</h2>
+
+<p>
+  Filtrar:
+  <a href="?status=open">Abiertos</a> |
+  <a href="?status=review">En revisión</a> |
+  <a href="?status=resolved">Resueltos</a> |
+  <a href="?status=rejected">Rechazados</a>
+</p>
+
+{% if page_obj.object_list %}
+  <ul>
+  {% for r in page_obj.object_list %}
+    <li style="margin-bottom:.75rem">
+      <a href="{% url 'abuse_review_detail' r.id %}"><strong>#{{ r.id }} — {{ r.song.title }}</strong></a>
+      — {{ r.get_reason_display }} — <em>{{ r.get_status_display }}</em>
+      <br><small>De: {% if r.reporter_artist %}Artista {{ r.reporter_artist.stage_name }}{% elif r.reporter_user %}Usuario {{ r.reporter_user.username }}{% else %}N/D{% endif %}</small>
+      <br><small>{{ r.created_at|date:"Y-m-d H:i" }}</small>
+    </li>
+  {% endfor %}
+  </ul>
+
+  <div>
+    {% if page_obj.has_previous %}
+      <a href="?status={{ status }}&page={{ page_obj.previous_page_number }}">Anterior</a>
+    {% endif %}
+    <span>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+      <a href="?status={{ status }}&page={{ page_obj.next_page_number }}">Siguiente</a>
+    {% endif %}
+  </div>
+{% else %}
+  <p>Sin reportes para este estado.</p>
+{% endif %}
+{% endblock %}

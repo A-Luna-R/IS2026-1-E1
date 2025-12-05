@@ -37,11 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'home',
-    'users',
+    'abuse',
     'artists',
-    'songs',
+    'home',
+    'notifications',
     'playlists',
+    'reports',
+    'songs',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -66,6 +69,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'notifications.context_processors.unread_notifications',
             ],
         },
     },
@@ -130,9 +134,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # URL para Auth
-LOGIN_URL = 'landing'                 # nombre provisto por django.contrib.auth.urls
-LOGIN_REDIRECT_URL = 'home'         # a dónde ir tras iniciar sesión
-LOGOUT_REDIRECT_URL = 'landing'       # a dónde ir tras cerrar sesión
+LOGIN_URL = '/'                 # nombre provisto por django.contrib.auth.urls
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = '/'       # a dónde ir tras cerrar sesión
 
 # Para canciones, subir archivos multimedia
 import os

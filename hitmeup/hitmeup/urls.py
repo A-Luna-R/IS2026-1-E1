@@ -23,9 +23,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('users.urls')),
     path('', include('home.urls')),
-    path('', include('songs.urls')),
-    path('', include('playlists.urls')),
     path('', include('artists.urls')),
+    path('', include('notifications.urls')),
+    path('', include('playlists.urls')),
+    path('', include('reports.urls')),
+    path('', include('songs.urls')),
+    path('', include('abuse.urls')),
 ]
 
 

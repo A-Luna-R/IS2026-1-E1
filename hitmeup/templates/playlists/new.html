@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>
+  Crear playlist
+  {% if owner_kind == 'artist' and artist_profile %} (artista: {{ artist_profile.stage_name }}){% endif %}
+</h2>
+
+<form method="post">
+  {% csrf_token %}
+  <p>
+    <label for="id_name">Nombre:</label><br>
+    {{ form.name }}
+    {% if form.name.errors %}<br><small style="color:red">{{ form.name.errors|join:", " }}</small>{% endif %}
+  </p>
+  <p>
+    <label for="id_description">Descripción:</label><br>
+    {{ form.description }}
+  </p>
+  <p>
+    <label>{{ form.is_public }} Pública</label>
+  </p>
+
+  <fieldset style="margin-top:1rem">
+    <legend>Canciones (opcional)</legend>
+    {% if form.songs.field.queryset %}
+      {{ form.songs }}
+    {% else %}
+      <p>No hay canciones disponibles.</p>
+    {% endif %}
+  </fieldset>
+
+  <p style="margin-top:1rem">
+    <button type="submit">Crear</button>
+    <a href="{% url 'list-playlists' %}">Cancelar</a>
+  </p>
+</form>
+{% endblock %}
