@@ -19,7 +19,7 @@ from notifications.utils import notify
 
 
 def playlists_list(request):
-    lists_ = Playlist.objects.filter(owner=request.user)
+    lists_ = Playlist.objects.filter(Q(is_public= True) | Q(owner= request.user))
 
     liked_user_ids = set()
     liked_artist_ids = set()
@@ -51,7 +51,8 @@ def playlists_list(request):
     })
 
 def playlist_detail(request, playlist_id):
-    pl= get_object_or_404(Playlist, id= playlist_id, owner= request.user)
+    queryset = Playlist.objects.filter(Q(id= playlist_id, owner= request.user) | Q(id= playlist_id, is_public= True))
+    pl= get_object_or_404(queryset)
 
     songs = pl.songs.select_related('owner').all()
     return render(request, 'playlists/detail.html', {'playlist': pl, 'songs': songs})
@@ -100,18 +101,18 @@ def artist_love_sync(request, artist_id: int):
 def create_playlist_user(request):
     if request.method == 'POST':
         form = PlaylistCreateForm(request.POST)
-        form.fields['songs'].queryset = Song.objects.filter(owner=request.user).order_by('-created_at')
+        form.fields['songs'].queryset = Song.objects.all().order_by('-created_at')
         if form.is_valid():
             name = form.cleaned_data['name'].strip()
             desc = form.cleaned_data['description']
             is_public = form.cleaned_data['is_public']
             songs = form.cleaned_data['songs']
 
-            if Playlist.objects.filter(owner_user=request.user, name=name).exists():
+            if Playlist.objects.filter(owner=request.user, name=name).exists():
                 form.add_error('name', 'Ya tienes una playlist con ese nombre.')
             else:
                 pl = Playlist.objects.create(
-                    owner_user=request.user,
+                    owner=request.user,
                     name=name,
                     description=desc,
                     is_public=is_public
@@ -119,10 +120,10 @@ def create_playlist_user(request):
                 if songs:
                     PlaylistSong.objects.bulk_create([PlaylistSong(playlist=pl, song=s) for s in songs])
                 messages.success(request, "Playlist creada.")
-                return redirect('playlist_detail', playlist_id=pl.id)
+                return redirect('playlist', playlist_id=pl.id)
     else:
         form = PlaylistCreateForm()
-        form.fields['songs'].queryset = Song.objects.filter(owner=request.user).order_by('-created_at')
+        form.fields['songs'].queryset = Song.objects.all().order_by('-created_at')
 
     return render(request, 'playlists/new.html', {
         'form': form,
@@ -157,7 +158,7 @@ def create_playlist_artist(request):
                 if songs:
                     PlaylistSong.objects.bulk_create([PlaylistSong(playlist=pl, song=s) for s in songs])
                 messages.success(request, "Playlist (artista) creada.")
-                return redirect('playlist_detail', playlist_id=pl.id)
+                return redirect('playlist', playlist_id=pl.id)
     else:
         form = PlaylistCreateForm()
         form.fields['songs'].queryset = Song.objects.filter(owner=owner_user_for_songs).order_by('-created_at')
@@ -186,7 +187,7 @@ def delete_playlist_user(request, playlist_id: int):
             name = pl.name
             pl.delete()
         messages.success(request, f'Playlist "{name}" eliminada.')
-        return redirect('playlists_list')
+        return redirect('list-playlists')
 
     return render(request, 'playlists/delete_confirm.html', {'playlist': pl, 'owner_kind': 'user'})
 
@@ -200,7 +201,7 @@ def delete_playlist_artist(request, playlist_id: int):
             name = pl.name
             pl.delete()
         messages.success(request, f'Playlist (artista) "{name}" eliminada.')
-        return redirect('playlists_list')
+        return redirect('list-playlists')
 
     return render(request, 'playlists/delete_confirm.html', {'playlist': pl, 'owner_kind': 'artist'})
     

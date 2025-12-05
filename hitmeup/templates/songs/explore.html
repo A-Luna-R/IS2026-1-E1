@@ -1,5 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
+
+<nav>
+    {% if user.is_authenticated %}
+      <a href="{% url 'upload-song' %}">Subir canciones</a>
+      {% endif %}
+  </nav>
+
+
 <h2>Explorar canciones</h2>
 
 <form method="get" action="{% url 'songs_explore' %}" style="margin-bottom:1rem">

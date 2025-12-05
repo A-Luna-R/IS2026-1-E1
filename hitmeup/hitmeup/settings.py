@@ -134,7 +134,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # URL para Auth
-LOGIN_URL = 'home'                 # nombre provisto por django.contrib.auth.urls
+LOGIN_URL = '/'                 # nombre provisto por django.contrib.auth.urls
+LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = '/'       # a dónde ir tras cerrar sesión
 
 # Para canciones, subir archivos multimedia

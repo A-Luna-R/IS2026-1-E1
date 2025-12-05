@@ -12,6 +12,7 @@ from django.db.models import Q, Count
 from django.core.paginator import Paginator
 from artists.models import ArtistSongLike
 
+@login_required(redirect_field_name="/")
 def upload_song(request):
     if request.method == 'POST':
         form = SongForm(request.POST, request.FILES)
@@ -25,12 +26,13 @@ def upload_song(request):
         form = SongForm()
     return render(request, 'songs/upload.html', {'form': form})
 
+@login_required(redirect_field_name="/")
 def songs_list(request):
-    songs = Song.objects.filter(owner=request.user).order_by('-created_at')
+    songs = Song.objects.all().order_by('-created_at')
     liked_ids = set(UserSongLike.objects.filter(user=request.user, song__in=songs).values_list('song_id', flat= True))
     return render(request, 'songs/list.html', {'songs': songs, 'liked_ids': liked_ids})
 
-
+@login_required(redirect_field_name="/")
 def delete_song(request, song_id):
     song = get_object_or_404(Song, id= song_id, owner= request.user)
     if request.method == 'POST':
@@ -39,6 +41,7 @@ def delete_song(request, song_id):
         return redirect('songs_list')
     return render(request, 'songs/confirm_delete.html', {'song': song})
 
+@login_required(redirect_field_name="/")
 def toggle_like_user(request, song_id: int):
     song = get_object_or_404(Song, id=song_id)
     like, created = UserSongLike.objects.get_or_create(user=request.user, song=song)
@@ -60,6 +63,7 @@ def toggle_like_user(request, song_id: int):
         messages.info(request, "Quitaste el like.")
     return redirect(request.META.get('HTTP_REFERER', 'songs_list'))
 
+@login_required(redirect_field_name="/")
 def liked_songs(request):
     qs = (Song.objects
           .filter(liked_by_users__user=request.user)
@@ -67,6 +71,7 @@ def liked_songs(request):
           .order_by('-liked_by_users__created_at'))
     return render(request, 'songs/liked.html', {'songs': qs})
 
+@login_required
 def explore_songs(request):
     q = (request.GET.get('q') or '').strip()
     order = (request.GET.get('order') or 'newest').strip()
@@ -123,6 +128,7 @@ def explore_songs(request):
     }
     return render(request, 'songs/explore.html', ctx)
 
+@login_required(redirect_field_name="/")
 def song_detail(request, song_id: int):
     s = get_object_or_404(Song.objects.select_related('owner'), id=song_id)
     liked_user = UserSongLike.objects.filter(user=request.user, song=s).exists()

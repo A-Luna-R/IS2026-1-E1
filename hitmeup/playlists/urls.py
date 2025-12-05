@@ -4,7 +4,7 @@ from . import views
 urlpatterns = [
     path('liked', views.playlists_liked, name= 'playlists_liked'),
     path('list-playlists', views.playlists_list, name= 'list-playlists'),
-    path('<int:playlist_id>', views.playlist_detail, name= 'playlist'),
+    path('playlist/<int:playlist_id>', views.playlist_detail, name= 'playlist'),
     path('search-lists', views.playlists_search, name= 'search-lists'),
     path('artist/<int:artist_id>/love', views.artist_love_playlist, name= 'playlist_artist_love'),
     path('artist/<int:artist_id>/love/sync', views.artist_love_sync, name= 'playlist_artist_love_sync'),
